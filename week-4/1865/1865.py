@@ -55,4 +55,4 @@ for tc in range(1, T+1):
     get_percent(0, 1)
 
     # 결과는 퍼센트 단위로 소수점 아래 7번째 자리에서 반올림하여 6번째까지 출력한다.
-    print(f'#{tc} {max_percent * 100: .6f}')
+    print(f'#{tc} {max_percent * 100:.6f}')
