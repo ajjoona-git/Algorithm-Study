@@ -17,7 +17,7 @@ def get_best_combo(r, c):
         for combo in itertools.combinations(workspace, i):
             # 꿀의 최대 양(C)를 넘는 경우를 제외한다.
             if sum(combo) > C:
-                break
+                continue
 
             # 수익을 계산한다.
             profit = 0
@@ -44,10 +44,11 @@ for tc in range(1, T+1):
             
             # 해당 위치를 제외한 이후 위치에서의 두 번째 조합을 만든다.
             for r2 in range(r1, N):
-                for c2 in range(c1, N-M+1):
-                    # 첫 번째 조합은 제외한다.
-                    if r2 == r1 and c2 in range(c1, c1+M):
-                        continue
+                start_c2 = 0
+                # 첫 번째 조합은 제외한다.
+                if r2 == r1:
+                    start_c2 = c1 + M
+                for c2 in range(start_c2, N-M+1):
                     profit2 = get_best_combo(r2, c2)
 
                     # 최대 수익을 갱신한다.
