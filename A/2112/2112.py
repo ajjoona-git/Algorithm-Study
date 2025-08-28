@@ -39,7 +39,7 @@ def inject_drug(section, r, type):
 
 def cnt_check(section, row, cnt):
     """row행부터 약물을 주입한다."""
-    if cnt == K:
+    if cnt > K:
         return
     print(cnt, row)
     for r in range(row, D):
@@ -49,10 +49,10 @@ def cnt_check(section, row, cnt):
             print("    ", type)
             if is_passed(inject_drug(section, r, type)):
                 return cnt
-    
-    # 약물 2개 이상일 때부터 어카지,,,
-    cnt_check(inject_drug(section, r, 0), row+1, cnt+1)
 
+        # 약물 2개 이상일 때부터 어카지,,,
+        # cnt_check(inject_drug(section, r, 1), row+1, cnt+1)
+        # cnt_check(inject_drug(section, r, 0), row+1, cnt+1)
 
 # def solve():
 #     drug_cnt = 0
