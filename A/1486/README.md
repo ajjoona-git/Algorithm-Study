@@ -1,9 +1,9 @@
 # 1486. 장훈이의 높은 선반 | D4
 
 ## 문제 출처
-![SWEA](https://swexpertacademy.com/main/talk/solvingClub/problemView.do?solveclubId=AZgvQCv6GNXHBIT9&contestProbId=AV2b7Yf6ABcBBASw&probBoxId=AZiiM-4KAVbHBIT9&type=PROBLEM&problemBoxTitle=A%ED%98%95_%EC%B6%94%EC%B2%9C+%ED%95%99%EC%8A%B5+%EC%9E%90%EB%A3%8C&problemBoxCnt=24)
+[SWEA](https://swexpertacademy.com/main/talk/solvingClub/problemView.do?solveclubId=AZgvQCv6GNXHBIT9&contestProbId=AV2b7Yf6ABcBBASw&probBoxId=AZiiM-4KAVbHBIT9&type=PROBLEM&problemBoxTitle=A%ED%98%95_%EC%B6%94%EC%B2%9C+%ED%95%99%EC%8A%B5+%EC%9E%90%EB%A3%8C&problemBoxCnt=24)
 
-## 💡 접근 방식 1: 부분 집합
+## 💡 접근 방식
 
 ### 1. 사용 알고리즘
 * **완전 탐색 (Brute-force Search)**
@@ -25,30 +25,8 @@
     * `min_diff`를 충분히 큰 값으로 초기화한 후, `make_powerset()` 함수를 실행하여 모든 부분 집합을 탐색합니다.
     * 모든 탐색이 완료되면 `min_diff`에 저장된 값이 최종 결과가 됩니다.
 
-### 💻 코드
-* [1486.py](1486.py)
 
 ---
 
-## 💡 접근 방식 2: 조합
-
-### 1. 사용 알고리즘
-* **완전 탐색 (Brute-force Search)**
-* **부분 집합 (Powerset)**
-* **조합 (Combinations)**
-
-### 2. 문제 풀이 과정
-1.  **문제 정의**: N명의 점원들로 만들 수 있는 모든 부분 집합(탑) 중, 그 높이가 `B` 이상인 것들을 찾아 `(높이의 합) - B`가 최소가 되는 값을 찾는 문제입니다.
-2.  **알고리즘 선택**: 점원의 모든 조합을 고려해야 하므로 **완전 탐색**을 사용합니다. Python의 `itertools` 라이브러리에 있는 `combinations` 함수를 사용하면 모든 부분 집합을 손쉽게 생성할 수 있습니다.
-3.  **조합을 이용한 부분 집합 생성**:
-    * `combinations` 함수는 특정 길이를 지정해야 하므로, 1명으로 탑을 쌓는 경우부터 N명 모두로 탑을 쌓는 경우까지 모든 길이를 고려해야 합니다.
-    * `for i in range(1, N + 1)` 루프를 통해 탑을 쌓을 점원의 수(`i`)를 1부터 N까지 변화시킵니다.
-    * 각 `i`에 대해 `itertools.combinations(heights, i)`를 호출하여, `heights` 리스트에서 `i`명을 선택하는 모든 조합(부분 집합)을 구합니다.
-4.  **최소 차이 계산**:
-    * 생성된 각 조합(`combo`)에 대해 `sum()` 함수로 키의 합을 계산합니다.
-    * 이 합이 선반 높이 `B` 이상인 경우, `(합) - B` 값을 계산하여 기존의 `min_diff`와 비교하고 더 작은 값으로 갱신합니다.
-5.  **실행 및 결과 출력**: `min_diff`를 충분히 큰 값으로 초기화한 뒤, 모든 길이의 모든 조합을 탐색합니다. 루프가 모두 종료되면 `min_diff`에 저장된 값이 최종 결과가 됩니다.
-
-
-### 💻 코드
-* [1486v2.py](1486v2.py)
+## 💻 코드
+* [1486.py](1486.py)
