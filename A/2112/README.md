@@ -1,7 +1,7 @@
 # 2112. 보호 필름
 
 ## 문제 출처
-![SWEA](https://swexpertacademy.com/main/talk/solvingClub/problemView.do?solveclubId=AZgvQCv6GNXHBIT9&contestProbId=AV5V1SYKAaUDFAWu&probBoxId=AZiiM-4KAVbHBIT9&type=PROBLEM&problemBoxTitle=A%ED%98%95_%EC%B6%94%EC%B2%9C+%ED%95%99%EC%8A%B5+%EC%9E%90%EB%A3%8C&problemBoxCnt=25)
+[SWEA](https://swexpertacademy.com/main/talk/solvingClub/problemView.do?solveclubId=AZgvQCv6GNXHBIT9&contestProbId=AV5V1SYKAaUDFAWu&probBoxId=AZiiM-4KAVbHBIT9&type=PROBLEM&problemBoxTitle=A%ED%98%95_%EC%B6%94%EC%B2%9C+%ED%95%99%EC%8A%B5+%EC%9E%90%EB%A3%8C&problemBoxCnt=25)
 
 ## 💡 접근 방식
 
