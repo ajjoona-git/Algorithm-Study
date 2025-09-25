@@ -28,7 +28,7 @@ def is_attracted():
 
 
 def rotate_magnetic(mag_idx, dir):
-    """자석을 1회 회전시킨다.""" 
+    """자석을 1회 회전시킨다."""
     attracted = is_attracted()
 
     # 회전하는 자석 본인
@@ -43,26 +43,24 @@ def rotate_magnetic(mag_idx, dir):
         # if magnetics[right_idx][2] == magnetics[right_idx + 1][-2]:
         if not attracted[right_idx]:
             break
-        mag_dq = deque(magnetics[right_idx])
-        mag_dq.rotate(new_dir)
-        magnetics[right_idx] = list(mag_dq)
         right_idx += 1
+        right_dq = deque(magnetics[right_idx])
+        right_dq.rotate(new_dir)
+        magnetics[right_idx] = list(right_dq)
         new_dir *= -1
-    
+
     # 왼쪽 자석의 회전 여부 확인
     left_idx = mag_idx - 1
     new_dir = -1 * dir
-    while left_idx > 0:
+    while left_idx >= 0:
         # if magnetics[left_idx - 1][2] == magnetics[left_idx][-2]:
         if not attracted[left_idx]:
             break
-        mag_dq = deque(magnetics[left_idx])
-        mag_dq.rotate(new_dir)
-        magnetics[left_idx] = list(mag_dq)
+        left_dq = deque(magnetics[left_idx])
+        left_dq.rotate(new_dir)
+        magnetics[left_idx] = list(left_dq)
         left_idx -= 1
         new_dir *= -1
-
-    print(magnetics)
 
 
 
@@ -74,9 +72,9 @@ for tc in range(1, T+1):
     # [회전할 자석의 번호, 회전 방향]
     # 회전방향은 1 일 경우 시계방향이며, -1 일 경우 반시계방향이다.
     rotates = [list(map(int, input().split())) for _ in range(K)]
-    print(magnetics)
+
     for mag_num, dir in rotates:
         rotate_magnetic(mag_num-1, dir)
-    
+
     point = calculate_points()
     print(f'#{tc} {point}')
