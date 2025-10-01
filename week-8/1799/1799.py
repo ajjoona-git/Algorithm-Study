@@ -113,3 +113,68 @@ dfs(0, 0, 0, blocked_positions)
 
 print(max_count)
 '''
+
+
+def check(r, c):
+    """(r, c) 위치에 비숍을 놓을 수 있는지 확인한다."""
+    # 비숍을 놓을 수 없는 곳
+    if board[r][c] == 0:
+        return False
+
+    # / 대각선에 비숍이 있는지 확인
+    i, j = r - 1, c + 1
+    while 0 <= i and j < N:
+        if visited[i][j]:
+            return False
+        i -= 1
+        j += 1
+
+    # \ 대각선에 비숍이 있는지 확인
+    i, j = r - 1, c - 1
+    while 0 <= i and 0 <= j:
+        if visited[i][j]:
+            return False
+        i -= 1
+        j -= 1
+
+    # 양 대각선에 비숍이 없다면 True
+    return True
+
+
+def dfs(r, c, count):
+    global max_count
+
+    # 종료 조건: 모든 좌표를 정하면 종료
+    if r == N:
+        max_count = max(max_count, count)
+        return
+
+    # 행 이동
+    if c+1 < N:
+        # 비숍을 놓는다.
+        if check(r, c):
+            visited[r][c] = 1
+            dfs(r, c+1, count + 1)
+            visited[r][c] = 0
+        # 비숍을 놓지 않는다.
+        dfs(r, c+1, count)
+
+    # 열 이동
+    else:
+        # 비숍을 놓는다.
+        if check(r, c):
+            visited[r][c] = 1
+            dfs(r+1, 0, count + 1)
+            visited[r][c] = 0
+        # 비숍을 놓지 않는다.
+        dfs(r+1, 0, count)
+
+
+N = int(input())
+# 비숍을 놓을 수 있는 곳에는 1, 비숍을 놓을 수 없는 곳에는 0
+board = [list(map(int, input().split())) for _ in range(N)]
+visited = [[0] * N for _ in range(N)]
+
+max_count = 0
+dfs(0, 0, 0)
+print(max_count)
