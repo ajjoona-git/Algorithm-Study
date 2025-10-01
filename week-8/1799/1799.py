@@ -187,5 +187,201 @@ print(max_count)
 """
 흑과 백을 나눈다..?
 r + c == 짝수 or 홀수
-
+흑에서 시작하면 흑만 밟을 수 있음.
 """
+''' 오답 (N이 짝수일 때, index + 2한다고 되지 않음)
+def check_diagonal(r, c, visited):
+    """(r, c) 위치에 비숍을 놓았을 때 대각선을 방문처리한다."""
+    new_visited = [row[:] for row in visited]
+    new_visited[r][c] = 1
+
+    # / 좌하향 대각선
+    i, j = r + 1, c - 1
+    while i < N and 0 <= j:
+        new_visited[i][j] = 1
+        i += 1
+        j -= 1
+
+    # \ 우하향 대각선
+    i, j = r + 1, c + 1
+    while i < N and j < N:
+        new_visited[i][j] = 1
+        i += 1
+        j += 1
+
+    return new_visited
+
+
+def dfs(index, count, visited):
+    global max_count_odd, max_count_even
+
+    r = index // N
+    c = index % N
+
+    # 종료 조건: 모든 좌표를 정하면 종료
+    if index >= N ** 2:
+        if index % 2 == 1:
+            max_count_odd = max(max_count_odd, count)
+        else:
+            max_count_even = max(max_count_even, count)
+        return
+    
+    # 가지치기: 현재값과 비숍을 놓을 수 있는 자리의 합이 max_count 이하라면 종료
+    if index % 2 == 1:
+        if count + board[index:].count(1) <= max_count_odd:
+            return
+        if count + sum(visited[i].count(0) for i in range(N)) <= max_count_odd:
+            return
+    else:
+        if count + board[index:].count(1) <= max_count_even:
+            return
+        if count + sum(visited[i].count(0) for i in range(N)) <= max_count_even:
+            return    
+
+    # 비숍을 놓는다.
+    if board[index] == 1 and visited[r][c] == 0:
+        # blocked = []
+        # 우하단 방향 대각선 (\)
+        # blocked.extend([i for i in range(index, N ** 2, N + 1)])
+        # 좌하단 방향 대각선 (/)
+        # blocked.extend([i for i in range(index, N ** 2, N - 1)])
+        # => 1차원 인덱스로 고려하면 반복이 끝나는 시점을 고려하지 못함
+        
+        new_visited = check_diagonal(r, c, visited)   
+        dfs(index + 2, count + 1, new_visited)
+
+    # 비숍을 놓지 않는다.
+    dfs(index + 2, count, visited)
+
+    # print(index, visited)
+
+
+N = int(input())
+board = [1] * (N ** 2)
+# 비숍을 놓을 수 있는 곳에는 1, 비숍을 놓을 수 없는 곳에는 0
+# board = []
+# for _ in range(N):
+#     board += list(map(int, input().split()))
+
+max_count_odd, max_count_even = 0, 0
+
+# visited: 비숍을 놓았거나 대각선 위치
+visited = [[0] * N for _ in range(N)]
+dfs(0, 0, visited)
+
+visited = [[0] * N for _ in range(N)]
+dfs(1, 0, visited)
+
+print(max_count_odd, max_count_even)
+'''
+
+
+def check_diagonal(r, c, visited):
+    """(r, c) 위치에 비숍을 놓았을 때 대각선을 방문처리한다."""
+    new_visited = [row[:] for row in visited]
+    new_visited[r][c] = 1
+
+    # / 좌하향 대각선
+    i, j = r + 1, c - 1
+    while i < N and 0 <= j:
+        new_visited[i][j] = 1
+        i += 1
+        j -= 1
+
+    # \ 우하향 대각선
+    i, j = r + 1, c + 1
+    while i < N and j < N:
+        new_visited[i][j] = 1
+        i += 1
+        j += 1
+
+    return new_visited
+
+
+# r + c % 2 == 1
+def dfs_odd(r, c, count, visited):
+    global max_count_odd
+
+    # 종료 조건: 모든 좌표를 정하면 종료
+    if r == N:
+        max_count_odd = max(max_count_odd, count)
+        return
+        
+    # 가지치기: 현재값과 비숍을 놓을 수 있는 자리의 합이 max_count 이하라면 종료
+    if count + sum(board[i].count(1) for i in range(r, N)) <= max_count_odd:
+        return
+    if count + sum(visited[i].count(0) for i in range(r, N)) <= max_count_odd:
+        return  
+
+    # 비숍을 놓는다.
+    if board[r][c] == 1 and visited[r][c] == 0:
+        new_visited = check_diagonal(r, c, visited)   
+        if c + 2 < N:  # 2칸 후
+            dfs_odd(r, c + 2, count + 1, new_visited)
+        elif (r + 1) % 2 == 0:  # 다음 행이 짝수번째이면 1번째 열부터
+            dfs_odd(r + 1, 1, count + 1, new_visited)
+        else:  # 다음 행이 홀수번째이면 0번째 열부터
+            dfs_odd(r + 1, 0, count + 1, new_visited)
+
+    # 비숍을 놓지 않는다.
+    if c + 2 < N:  # 2칸 후
+        dfs_odd(r, c + 2, count, visited)
+    elif (r + 1) % 2 == 0:  # 다음 행이 짝수번째이면 1번째 열부터
+        dfs_odd(r + 1, 1, count, visited)
+    else:  # 다음 행이 홀수번째이면 0번째 열부터
+        dfs_odd(r + 1, 0, count, visited)
+
+
+# r + c % 2 == 0
+def dfs_even(r, c, count, visited):
+    global max_count_even
+
+    # 종료 조건: 모든 좌표를 정하면 종료
+    if r == N:
+        max_count_even = max(max_count_even, count)
+        return
+        
+    # 가지치기: 현재값과 비숍을 놓을 수 있는 자리의 합이 max_count 이하라면 종료
+    if count + sum(board[i].count(1) for i in range(r, N)) <= max_count_even:
+        return
+    if count + sum(visited[i].count(0) for i in range(r, N)) <= max_count_even:
+        return  
+
+    # 비숍을 놓는다.
+    if board[r][c] == 1 and visited[r][c] == 0:
+        new_visited = check_diagonal(r, c, visited)   
+        if c + 2 < N:  # 2칸 후
+            dfs_even(r, c + 2, count + 1, new_visited)
+        elif (r + 1) % 2 == 0:  # 다음 행이 짝수번째이면 0번째 열부터
+            dfs_even(r + 1, 0, count + 1, new_visited)
+        else:  # 다음 행이 홀수번째이면 1번째 열부터
+            dfs_even(r + 1, 1, count + 1, new_visited)
+
+    # 비숍을 놓지 않는다.
+    if c + 2 < N:  # 2칸 후
+        dfs_even(r, c + 2, count, visited)
+    elif (r + 1) % 2 == 0:  # 다음 행이 짝수번째이면 0번째 열부터
+        dfs_even(r + 1, 0, count, visited)
+    else:  # 다음 행이 홀수번째이면 1번째 열부터
+        dfs_even(r + 1, 1, count, visited)
+
+    # print(r, c, visited)
+
+
+
+N = int(input())
+# board = [[1] * N for _ in range(N)]
+# 비숍을 놓을 수 있는 곳에는 1, 비숍을 놓을 수 없는 곳에는 0
+board = [list(map(int, input().split())) for _ in range(N)]
+
+
+max_count_odd, max_count_even = 0, 0
+
+# visited: 비숍을 놓았거나 대각선 위치
+visited = [[0] * N for _ in range(N)]
+dfs_odd(0, 1, 0, visited)
+
+visited = [[0] * N for _ in range(N)]
+dfs_even(0, 0, 0, visited)
+
+print(max_count_odd + max_count_even)
