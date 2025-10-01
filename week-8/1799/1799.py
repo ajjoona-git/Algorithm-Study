@@ -105,6 +105,7 @@ def dfs(r, c, count, blocked_positions=set()):
 N = int(input())
 # 비숍을 놓을 수 있는 곳에는 1, 비숍을 놓을 수 없는 곳에는 0
 board = [list(map(int, input().split())) for _ in range(N)]
+
 # 비숍을 놓을 수 없는 위치를 저장할 set
 blocked_positions = set()
 
@@ -114,7 +115,7 @@ dfs(0, 0, 0, blocked_positions)
 print(max_count)
 '''
 
-
+''' 시간초과
 def check(r, c):
     """(r, c) 위치에 비숍을 놓을 수 있는지 확인한다."""
     # 비숍을 놓을 수 없는 곳
@@ -178,3 +179,13 @@ visited = [[0] * N for _ in range(N)]
 max_count = 0
 dfs(0, 0, 0)
 print(max_count)
+'''
+
+# board = [[1] * N for _ in range(N)]
+
+
+"""
+흑과 백을 나눈다..?
+r + c == 짝수 or 홀수
+
+"""
