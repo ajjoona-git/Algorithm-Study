@@ -1,5 +1,7 @@
 # 17143. 낚시왕
 """
+python3 시간초과, pypy3 676 ms
+---
 시간 제한: 1초
 
 (0, 0)에서 출발, (0, C) 도착하면 종료
@@ -15,8 +17,8 @@
 낚시왕이 잡은 상어 크기의 합 구하기
 """
 
-import sys
-sys.stdin = open('input.txt')
+# import sys
+# sys.stdin = open('input.txt')
 
 
 # 격자판의 크기 R x C, 상어의 수 M
@@ -54,6 +56,11 @@ for col in range(1, C + 1):
             sharks.pop(id)
             # 격자판 초기화
             grid[row][col] = -1
+            break
+
+    # 마지막 열에서 상어를 잡으면 종료
+    if col == C:
+        break
 
     # 2. 상어 이동
     for shark in sharks:
@@ -71,15 +78,16 @@ for col in range(1, C + 1):
         for _ in range(s):
             nr, nc = r + dr[d], c + dc[d]
             # 벽을 만나면 방향 전환 후 이동
-            if nr <= 0 or nr >= R or nc <= 0 or nc >= C:
+            if nr <= 0 or nr > R or nc <= 0 or nc > C:
                 d = change_direction(d)
                 nr, nc = r + dr[d], c + dc[d]
+            r, c = nr, nc
 
         # 이동 마친 후 정보 갱신
-        sharks[shark] = [nr, nc, s, d, z]
+        sharks[shark] = [r, c, s, d, z]
 
     # 3. 격자판 갱신
-    for id in range(len(sharks)):
+    for id in range(1, M + 1):
         shark = sharks.get(id, None)
         if shark:
             r, c = shark[0], shark[1]
